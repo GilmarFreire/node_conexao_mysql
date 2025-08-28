@@ -2,11 +2,16 @@ const express = require('express')
 const env = require('dotenv')
 
 const {buscarClientes, buscarCliente} = require('./src/DAO/cliente/buscar_cliente.js')
+const {buscarCategorias} = require('./src/DAO/categorias/buscar_categoria.js')
+const { buscarEnderecos } = require('./src/DAO/enderecos/buscar_endereco.js')
+const { buscarItemPedido } = require('./src/DAO/item_pedido/item_pedido.js')
+const { buscarPedido } = require('./src/DAO/pedido/pedido.js')
 const {incluirCliente} = require('./src/DAO/cliente/inserir_cliente.js')
 const { deletarCliente } = require('./src/DAO/cliente/deletar_cliente.js')
 const { editarParcialmenteCliente } = require('./src/DAO/cliente/editar_parcialmente_cliente.js')
 const { editarIntegralmenteCliente } = require('./src/DAO/cliente/editar_integralmente_cliente.js')
 const {conexao, closeConexao, testarConexao} = require('./src/DAO/conexao.js')
+
 
 const app = express()
 env.config()
@@ -30,6 +35,31 @@ app.get('/firma/1.0.0/clientes', async (req, res) =>{
     let clientes = await buscarClientes()
     res.json(clientes)
 })
+
+app.get('/firma/1.0.0/enderecos', async (req, res) =>{
+
+    let enderecos = await buscarEnderecos()
+    res.json(enderecos)
+})
+
+app.get('/firma/1.0.0/categorias', async (req, res) =>{
+    
+    let categorias = await buscarCategorias()
+    res.json(categorias)
+})
+
+app.get('/firma/1.0.0/itempedido', async (req, res) =>{
+    
+    let itempedido = await buscarItemPedido()
+    res.json(itempedido)
+})
+
+app.get('/firma/1.0.0/pedido', async (req, res) =>{
+    
+    let pedido = await buscarPedido()
+    res.json(pedido)
+})
+
 
 app.get('/firma/1.0.0/cliente/:codigo', async (req, res) =>{
     let codigo = parseInt( req.params.codigo)

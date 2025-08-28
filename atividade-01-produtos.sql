@@ -1,3 +1,4 @@
+
 create database produtos_db;
 -- ativar
 USE produtos_db;
