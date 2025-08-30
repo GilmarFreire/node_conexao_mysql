@@ -1,7 +1,7 @@
 const express = require('express')
 const env = require('dotenv')
 
-const {buscarClientes, buscarCliente} = require('./src/DAO/cliente/buscar_cliente.js')
+const {buscarClientes, buscarClienteCodigo, buscarClienteStatus} = require('./src/DAO/cliente/buscar_cliente.js')
 const {buscarCategorias} = require('./src/DAO/categorias/buscar_categoria.js')
 const { buscarEnderecos } = require('./src/DAO/enderecos/buscar_endereco.js')
 const { buscarItemPedido } = require('./src/DAO/item_pedido/item_pedido.js')
@@ -71,7 +71,13 @@ app.get('/firma/1.0.0/status', async(req, res)=>{
 
 app.get('/firma/1.0.0/cliente/:codigo', async (req, res) =>{
     let codigo = parseInt( req.params.codigo)
-    let cliente = await buscarCliente(codigo)
+    let cliente = await buscarClienteCodigo(codigo)
+    res.json(cliente)
+})
+
+app.get('/firma/1.0.0/cliente/status/:id_status', async (req, res) =>{
+    let id_status = parseInt( req.params.id_status)
+    let cliente = await buscarClienteStatus(id_status)
     res.json(cliente)
 })
 
