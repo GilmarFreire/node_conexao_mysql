@@ -6,11 +6,13 @@ const {buscarCategorias} = require('./src/DAO/categorias/buscar_categoria.js')
 const { buscarEnderecos } = require('./src/DAO/enderecos/buscar_endereco.js')
 const { buscarItemPedido } = require('./src/DAO/item_pedido/item_pedido.js')
 const { buscarPedido } = require('./src/DAO/pedido/pedido.js')
+const { buscarStatus } = require('./src/DAO/status/buscar_status.js')
 const {incluirCliente} = require('./src/DAO/cliente/inserir_cliente.js')
 const { deletarCliente } = require('./src/DAO/cliente/deletar_cliente.js')
 const { editarParcialmenteCliente } = require('./src/DAO/cliente/editar_parcialmente_cliente.js')
 const { editarIntegralmenteCliente } = require('./src/DAO/cliente/editar_integralmente_cliente.js')
 const {conexao, closeConexao, testarConexao} = require('./src/DAO/conexao.js')
+
 
 
 const app = express()
@@ -58,6 +60,12 @@ app.get('/firma/1.0.0/pedido', async (req, res) =>{
     
     let pedido = await buscarPedido()
     res.json(pedido)
+})
+
+app.get('/firma/1.0.0/status', async(req, res)=>{
+
+    let status = await buscarStatus()
+    res.json(status)
 })
 
 
