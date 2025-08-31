@@ -5,7 +5,7 @@ const {buscarClientes, buscarClienteCodigo, buscarClienteStatus} = require('./sr
 const {buscarCategorias, buscarCategoriaId, buscarCategoriaNome} = require('./src/DAO/categorias/buscar_categoria.js')
 const { buscarEnderecos, buscarEnderecoCidade } = require('./src/DAO/enderecos/buscar_endereco.js')
 const { buscarItemPedido, buscarItemPedidoQtd } = require('./src/DAO/item_pedido/item_pedido.js')
-const { buscarPedido } = require('./src/DAO/pedido/pedido.js')
+const { buscarPedido, buscarPedidoCliente } = require('./src/DAO/pedido/pedido.js')
 const { buscarStatus } = require('./src/DAO/status/buscar_status.js')
 const {incluirCliente} = require('./src/DAO/cliente/inserir_cliente.js')
 const { deletarCliente } = require('./src/DAO/cliente/deletar_cliente.js')
@@ -108,6 +108,12 @@ app.get('/firma/1.0.0/Itempedido/qtd/:qtd', async (req, res) =>{
     let qtd = parseInt( req.params.qtd)
     let Itempedido = await buscarItemPedidoQtd(qtd)
     res.json(Itempedido)
+})
+
+app.get('/firma/1.0.0/pedido/cliente_id/:id', async (req, res) =>{
+    let cliente_id = parseInt( req.params.id)
+    let pedido = await buscarPedidoCliente(cliente_id)
+    res.json(pedido)
 })
 
 app.post('/firma/1.0.0/cliente', async (req, res) =>{

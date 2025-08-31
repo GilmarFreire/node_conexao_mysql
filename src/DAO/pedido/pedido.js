@@ -16,5 +16,21 @@ async function buscarPedido(){
       }
 }
 
+async function buscarPedidoCliente(id){
+    const sql = `SELECT * FROM tbl_pedido WHERE cliente_id = ?`
+   
+    
+    const conn = await conexao()
+    
+    try {
+        // Executar a consulta
+        const [rows, fields] = await conn.query(sql, [id]);
+        await conn.end()
+        return rows
+      } catch (err) {
+        return err.message
+      }
+}
 
-module.exports = {buscarPedido}
+
+module.exports = {buscarPedido, buscarPedidoCliente}
