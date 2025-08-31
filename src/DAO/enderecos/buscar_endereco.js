@@ -16,5 +16,20 @@ async function buscarEnderecos(){
       }
 }
 
+async function buscarEnderecoCidade(cidade){
+    const sql = `SELECT * FROM tbl_categoria WHERE cidade = ?`
+    
+    const conn = await conexao()
+    
+    try {
+        // Executar a consulta
+        const [rows, fields] = await conn.query(sql, [cidade]);
+        await conn.end()
+        return rows
+      } catch (err) {
+        return err.message
+      }
+}
 
-module.exports = {buscarEnderecos}
+
+module.exports = {buscarEnderecos, buscarEnderecoCidade}

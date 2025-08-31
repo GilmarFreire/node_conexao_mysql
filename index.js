@@ -2,7 +2,7 @@ const express = require('express')
 const env = require('dotenv')
 
 const {buscarClientes, buscarClienteCodigo, buscarClienteStatus} = require('./src/DAO/cliente/buscar_cliente.js')
-const {buscarCategorias} = require('./src/DAO/categorias/buscar_categoria.js')
+const {buscarCategorias, buscarCategoriaId, buscarCategoriaNome} = require('./src/DAO/categorias/buscar_categoria.js')
 const { buscarEnderecos } = require('./src/DAO/enderecos/buscar_endereco.js')
 const { buscarItemPedido } = require('./src/DAO/item_pedido/item_pedido.js')
 const { buscarPedido } = require('./src/DAO/pedido/pedido.js')
@@ -79,6 +79,23 @@ app.get('/firma/1.0.0/cliente/status/:id_status', async (req, res) =>{
     let id_status = parseInt( req.params.id_status)
     let cliente = await buscarClienteStatus(id_status)
     res.json(cliente)
+})
+
+app.get('/firma/1.0.0/categoria/id/:id', async (req, res) =>{
+    let id = parseInt( req.params.id)
+    let categoria = await buscarCategoriaId(id)
+    res.json(categoria)
+})
+app.get('/firma/1.0.0/categoria/nome/:nome', async (req, res) =>{
+    let nome = req.params.nome
+    let categoria = await buscarCategoriaNome(nome)
+    res.json(categoria)
+})
+
+app.get('/firma/1.0.0/categoria/nome/:nome', async (req, res) =>{
+    let nome = req.params.nome
+    let categoria = await buscarCategoriaNome(nome)
+    res.json(categoria)
 })
 
 app.post('/firma/1.0.0/cliente', async (req, res) =>{
