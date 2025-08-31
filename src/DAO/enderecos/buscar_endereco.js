@@ -1,6 +1,8 @@
 const {conexao} = require('../conexao.js')
 
 
+//Busca de lista com todos os Endereços dos Clientes
+
 async function buscarEnderecos(){
   console.log('DAO de Endereco')
     const sql = `SELECT * FROM tbl_endereco;`
@@ -15,6 +17,8 @@ async function buscarEnderecos(){
         return err.message
       }
 }
+
+//Busca de lista com todos os Endereços dos Clientes por filtro de cidade
 
 async function buscarEnderecoCidade(cidade){
     const sql = `SELECT * FROM tbl_endereco WHERE cidade = ?`

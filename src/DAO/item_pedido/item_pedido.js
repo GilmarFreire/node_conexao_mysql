@@ -1,5 +1,6 @@
 const {conexao} = require('../conexao.js')
 
+//Busca de lista com todos os itemPedidos
 
 async function buscarItemPedido(){
   console.log('DAO de ItemPedidos')
@@ -15,6 +16,9 @@ async function buscarItemPedido(){
         return err.message
       }
 }
+
+
+//Busca de lista com todos os itemPedidos por quantidade
 
 async function buscarItemPedidoQtd(qtd){
     const sql = `SELECT * FROM tbl_itempedido WHERE qnt = ?`

@@ -1,5 +1,6 @@
 const {conexao} = require('../conexao.js')
 
+//Busca de lista com todas as categorisas dos produtos
 
 async function buscarCategorias(){
   console.log('DAO de Categoria')
@@ -16,6 +17,8 @@ async function buscarCategorias(){
       }
 }
 
+//Busca de lista com todas as categorisas dos produtos por filtro de ID
+
 async function buscarCategoriaId(id){
     const sql = `SELECT * FROM tbl_categoria WHERE id = ?`
    
@@ -31,6 +34,8 @@ async function buscarCategoriaId(id){
         return err.message
       }
 }
+
+//Busca de lista com todas as categorisas dos produtos por filtro de NOME
 
 async function buscarCategoriaNome(nome){
     const sql = `SELECT * FROM tbl_categoria WHERE nome = ?`

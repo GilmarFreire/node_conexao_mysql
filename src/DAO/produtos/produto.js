@@ -1,5 +1,6 @@
 const {conexao} = require('../conexao.js')
 
+//Busca de lista com todos os produtos
 
 async function buscarProdutos(){
   console.log('DAO de Produtos')
@@ -15,6 +16,8 @@ async function buscarProdutos(){
         return err.message
       }
 }
+
+//Busca de lista com todos os produtos por categoria
 
 async function buscarProdutoIdCategoria(id){
     const sql = `SELECT * FROM tbl_produtos WHERE id_categoria = ?`
