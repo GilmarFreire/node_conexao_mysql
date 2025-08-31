@@ -3,7 +3,7 @@ const env = require('dotenv')
 
 const {buscarClientes, buscarClienteCodigo, buscarClienteStatus} = require('./src/DAO/cliente/buscar_cliente.js')
 const {buscarCategorias, buscarCategoriaId, buscarCategoriaNome} = require('./src/DAO/categorias/buscar_categoria.js')
-const { buscarEnderecos } = require('./src/DAO/enderecos/buscar_endereco.js')
+const { buscarEnderecos, buscarEnderecoCidade } = require('./src/DAO/enderecos/buscar_endereco.js')
 const { buscarItemPedido } = require('./src/DAO/item_pedido/item_pedido.js')
 const { buscarPedido } = require('./src/DAO/pedido/pedido.js')
 const { buscarStatus } = require('./src/DAO/status/buscar_status.js')
@@ -96,6 +96,12 @@ app.get('/firma/1.0.0/categoria/nome/:nome', async (req, res) =>{
     let nome = req.params.nome
     let categoria = await buscarCategoriaNome(nome)
     res.json(categoria)
+})
+
+app.get('/firma/1.0.0/endereco/cidade/:cidade', async (req, res) =>{
+    let cidade = req.params.cidade
+    let endereco = await buscarEnderecoCidade(cidade)
+    res.json(endereco)
 })
 
 app.post('/firma/1.0.0/cliente', async (req, res) =>{

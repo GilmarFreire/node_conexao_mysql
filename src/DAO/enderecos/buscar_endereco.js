@@ -17,7 +17,7 @@ async function buscarEnderecos(){
 }
 
 async function buscarEnderecoCidade(cidade){
-    const sql = `SELECT * FROM tbl_categoria WHERE cidade = ?`
+    const sql = `SELECT * FROM tbl_endereco WHERE cidade = ?`
     
     const conn = await conexao()
     
