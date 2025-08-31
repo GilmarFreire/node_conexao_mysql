@@ -6,7 +6,7 @@ const {buscarCategorias, buscarCategoriaId, buscarCategoriaNome} = require('./sr
 const { buscarEnderecos, buscarEnderecoCidade } = require('./src/DAO/enderecos/buscar_endereco.js')
 const { buscarItemPedido, buscarItemPedidoQtd } = require('./src/DAO/item_pedido/item_pedido.js')
 const { buscarPedido, buscarPedidoCliente } = require('./src/DAO/pedido/pedido.js')
-const { buscarStatus } = require('./src/DAO/status/buscar_status.js')
+const { buscarStatus, buscarStatusId } = require('./src/DAO/status/buscar_status.js')
 const {incluirCliente} = require('./src/DAO/cliente/inserir_cliente.js')
 const { deletarCliente } = require('./src/DAO/cliente/deletar_cliente.js')
 const { editarParcialmenteCliente } = require('./src/DAO/cliente/editar_parcialmente_cliente.js')
@@ -114,6 +114,12 @@ app.get('/firma/1.0.0/pedido/cliente_id/:id', async (req, res) =>{
     let cliente_id = parseInt( req.params.id)
     let pedido = await buscarPedidoCliente(cliente_id)
     res.json(pedido)
+})
+
+app.get('/firma/1.0.0/status/:id', async (req, res) =>{
+    let id = parseInt( req.params.id)
+    let status = await buscarStatusId(id)
+    res.json(status)
 })
 
 app.post('/firma/1.0.0/cliente', async (req, res) =>{
