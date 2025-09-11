@@ -9,10 +9,14 @@ const { buscarPedido, buscarPedidoCliente } = require('./src/DAO/pedido/pedido.j
 const { buscarStatus, buscarStatusId } = require('./src/DAO/status/buscar_status.js')
 const { buscarProdutos, buscarProdutoIdCategoria } = require('./src/DAO/produtos/produto.js')
 const {incluirCliente} = require('./src/DAO/cliente/inserir_cliente.js')
+const { incluirCategoria } = require('./src/DAO/categorias/inserir_categoria.js')
+const { incluirEndereco } = require('./src/DAO/enderecos/inserir_endereco.js')
 const { deletarCliente } = require('./src/DAO/cliente/deletar_cliente.js')
 const { editarParcialmenteCliente } = require('./src/DAO/cliente/editar_parcialmente_cliente.js')
 const { editarIntegralmenteCliente } = require('./src/DAO/cliente/editar_integralmente_cliente.js')
 const {conexao, closeConexao, testarConexao} = require('./src/DAO/conexao.js')
+
+
 
 
 
@@ -140,6 +144,20 @@ app.post('/firma/1.0.0/cliente', async (req, res) =>{
     let {codigo, nome, limite, telefone, id_endereco, id_status} = req.body
     const infos = [codigo, nome, telefone, limite, id_endereco, id_status]
    let result = await incluirCliente(infos)
+    res.json(result)
+})
+
+app.post('/firma/1.0.0/categoria', async (req, res) =>{
+    let {id, nome} = req.body
+    const infos = [id, nome]
+   let result = await incluirCategoria(infos)
+    res.json(result)
+})
+
+app.post('/firma/1.0.0/endereco', async (req, res) =>{
+    let {id, logradouro, cep, numero, bairro,  cidade} = req.body
+    const infos = [id, logradouro, cep, numero, bairro,  cidade]
+   let result = await incluirEndereco(infos)
     res.json(result)
 })
 
