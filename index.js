@@ -4,8 +4,8 @@ const env = require('dotenv')
 const {buscarClientes, buscarClienteCodigo, buscarClienteStatus} = require('./src/DAO/cliente/buscar_cliente.js')
 const {buscarCategorias, buscarCategoriaId, buscarCategoriaNome} = require('./src/DAO/categorias/buscar_categoria.js')
 const { buscarEnderecos, buscarEnderecoCidade } = require('./src/DAO/enderecos/buscar_endereco.js')
-const { buscarItemPedido, buscarItemPedidoQtd } = require('./src/DAO/item_pedido/item_pedido.js')
-const { buscarPedido, buscarPedidoCliente } = require('./src/DAO/pedido/pedido.js')
+const { buscarItemPedido, buscarItemPedidoQtd } = require('./src/DAO/item_pedido/buscar_item_pedido.js')
+const { buscarPedido, buscarPedidoCliente } = require('./src/DAO/pedido/buscar_pedido.js')
 const { buscarStatus, buscarStatusId } = require('./src/DAO/status/buscar_status.js')
 const { buscarProdutos, buscarProdutoIdCategoria } = require('./src/DAO/produtos/produto.js')
 const {incluirCliente} = require('./src/DAO/cliente/inserir_cliente.js')
@@ -15,6 +15,10 @@ const { deletarCliente } = require('./src/DAO/cliente/deletar_cliente.js')
 const { editarParcialmenteCliente } = require('./src/DAO/cliente/editar_parcialmente_cliente.js')
 const { editarIntegralmenteCliente } = require('./src/DAO/cliente/editar_integralmente_cliente.js')
 const {conexao, closeConexao, testarConexao} = require('./src/DAO/conexao.js')
+const { incluirItemPedido } = require('./src/DAO/item_pedido/inserir_item_pedido.js')
+const { incluirPedido } = require('./src/DAO/pedido/inserir_pedido.js')
+const { incluirProduto } = require('./src/DAO/produtos/inserir_produto.js')
+const { incluirStatus } = require('./src/DAO/status/inserir_status.js')
 
 
 
@@ -158,6 +162,34 @@ app.post('/firma/1.0.0/endereco', async (req, res) =>{
     let {id, logradouro, cep, numero, bairro,  cidade} = req.body
     const infos = [id, logradouro, cep, numero, bairro,  cidade]
    let result = await incluirEndereco(infos)
+    res.json(result)
+})
+
+app.post('/firma/1.0.0/itempedido', async (req, res) =>{
+    let {id, id_pedido, id_produto, qnt} = req.body
+    const infos = [id, id_pedido, id_produto, qnt]
+   let result = await incluirItemPedido(infos)
+    res.json(result)
+})
+
+app.post('/firma/1.0.0/pedido', async (req, res) =>{
+    let {numero, data_elaboracao, cliente_id} = req.body
+    const infos = [numero, data_elaboracao, cliente_id]
+   let result = await incluirPedido(infos)
+    res.json(result)
+})
+
+app.post('/firma/1.0.0/produto', async (req, res) =>{
+    let {codigo,nome, id_categoria, preco} = req.body
+    const infos = [codigo,nome, id_categoria, preco]
+   let result = await incluirProduto(infos)
+    res.json(result)
+})
+
+app.post('/firma/1.0.0/status', async (req, res) =>{
+    let {id, nome} = req.body
+    const infos = [id, nome]
+   let result = await incluirStatus(infos)
     res.json(result)
 })
 
