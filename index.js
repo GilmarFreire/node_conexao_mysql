@@ -1,15 +1,10 @@
 const express = require('express')
 const env = require('dotenv')
 
-const {buscarClientes, buscarClienteCodigo, buscarClienteStatus} = require('./src/DAO/cliente/buscar_cliente.js')
-const {buscarCategorias, buscarCategoriaId, buscarCategoriaNome} = require('./src/DAO/categorias/buscar_categoria.js')
 const { buscarEnderecos, buscarEnderecoCidade } = require('./src/DAO/enderecos/buscar_endereco.js')
 const { buscarItemPedido, buscarItemPedidoQtd } = require('./src/DAO/item_pedido/buscar_item_pedido.js')
-const { buscarPedido, buscarPedidoCliente } = require('./src/DAO/pedido/buscar_pedido.js')
 const { buscarStatus, buscarStatusId } = require('./src/DAO/status/buscar_status.js')
 const { buscarProdutos, buscarProdutoIdCategoria } = require('./src/DAO/produtos/produto.js')
-const {incluirCliente} = require('./src/DAO/cliente/inserir_cliente.js')
-const { incluirCategoria } = require('./src/DAO/categorias/inserir_categoria.js')
 const { incluirEndereco } = require('./src/DAO/enderecos/inserir_endereco.js')
 const { deletarCliente } = require('./src/DAO/cliente/deletar_cliente.js')
 const { editarParcialmenteCliente } = require('./src/DAO/cliente/editar_parcialmente_cliente.js')
@@ -20,13 +15,20 @@ const { incluirPedido } = require('./src/DAO/pedido/inserir_pedido.js')
 const { incluirProduto } = require('./src/DAO/produtos/inserir_produto.js')
 const { incluirStatus } = require('./src/DAO/status/inserir_status.js')
 
-
-
+const router_cliente = require( './src/router/router_cliente.js')
+const router_categoria = require( './src/router/router_categoria.js')
+const router_pedido = require( './src/router/router_pedido.js')
+const router_produto = require( './src/router/router_produto.js')
 
 
 
 const app = express()
 env.config()
+
+app.use('/', router_cliente)
+app.use('/', router_categoria)
+app.use('/', router_pedido)
+
 
 app.use(
     express.urlencoded({
@@ -42,11 +44,6 @@ app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
-app.get('/firma/1.0.0/clientes', async (req, res) =>{
-    
-    let clientes = await buscarClientes()
-    res.json(clientes)
-})
 
 app.get('/firma/1.0.0/enderecos', async (req, res) =>{
 
@@ -54,11 +51,7 @@ app.get('/firma/1.0.0/enderecos', async (req, res) =>{
     res.json(enderecos)
 })
 
-app.get('/firma/1.0.0/categorias', async (req, res) =>{
-    
-    let categorias = await buscarCategorias()
-    res.json(categorias)
-})
+
 
 app.get('/firma/1.0.0/itempedido', async (req, res) =>{
     
@@ -66,11 +59,7 @@ app.get('/firma/1.0.0/itempedido', async (req, res) =>{
     res.json(itempedido)
 })
 
-app.get('/firma/1.0.0/pedido', async (req, res) =>{
-    
-    let pedido = await buscarPedido()
-    res.json(pedido)
-})
+
 
 app.get('/firma/1.0.0/status', async(req, res)=>{
 
@@ -85,34 +74,9 @@ app.get('/firma/1.0.0/produtos', async(req, res)=>{
 })
 
 
-app.get('/firma/1.0.0/cliente/:codigo', async (req, res) =>{
-    let codigo = parseInt( req.params.codigo)
-    let cliente = await buscarClienteCodigo(codigo)
-    res.json(cliente)
-})
 
-app.get('/firma/1.0.0/cliente/status/:id_status', async (req, res) =>{
-    let id_status = parseInt( req.params.id_status)
-    let cliente = await buscarClienteStatus(id_status)
-    res.json(cliente)
-})
 
-app.get('/firma/1.0.0/categoria/id/:id', async (req, res) =>{
-    let id = parseInt( req.params.id)
-    let categoria = await buscarCategoriaId(id)
-    res.json(categoria)
-})
-app.get('/firma/1.0.0/categoria/nome/:nome', async (req, res) =>{
-    let nome = req.params.nome
-    let categoria = await buscarCategoriaNome(nome)
-    res.json(categoria)
-})
 
-app.get('/firma/1.0.0/categoria/nome/:nome', async (req, res) =>{
-    let nome = req.params.nome
-    let categoria = await buscarCategoriaNome(nome)
-    res.json(categoria)
-})
 
 app.get('/firma/1.0.0/endereco/cidade/:cidade', async (req, res) =>{
     let cidade = req.params.cidade
@@ -126,11 +90,7 @@ app.get('/firma/1.0.0/Itempedido/qtd/:qtd', async (req, res) =>{
     res.json(Itempedido)
 })
 
-app.get('/firma/1.0.0/pedido/cliente_id/:id', async (req, res) =>{
-    let cliente_id = parseInt( req.params.id)
-    let pedido = await buscarPedidoCliente(cliente_id)
-    res.json(pedido)
-})
+
 
 app.get('/firma/1.0.0/status/:id', async (req, res) =>{
     let id = parseInt( req.params.id)
@@ -144,19 +104,9 @@ app.get('/firma/1.0.0/produtos/:id', async (req, res) =>{
     res.json(produtos)
 })
 
-app.post('/firma/1.0.0/cliente', async (req, res) =>{
-    let {codigo, nome, limite, telefone, id_endereco, id_status} = req.body
-    const infos = [codigo, nome, telefone, limite, id_endereco, id_status]
-   let result = await incluirCliente(infos)
-    res.json(result)
-})
 
-app.post('/firma/1.0.0/categoria', async (req, res) =>{
-    let {id, nome} = req.body
-    const infos = [id, nome]
-   let result = await incluirCategoria(infos)
-    res.json(result)
-})
+
+
 
 app.post('/firma/1.0.0/endereco', async (req, res) =>{
     let {id, logradouro, cep, numero, bairro,  cidade} = req.body
@@ -172,12 +122,7 @@ app.post('/firma/1.0.0/itempedido', async (req, res) =>{
     res.json(result)
 })
 
-app.post('/firma/1.0.0/pedido', async (req, res) =>{
-    let {numero, data_elaboracao, cliente_id} = req.body
-    const infos = [numero, data_elaboracao, cliente_id]
-   let result = await incluirPedido(infos)
-    res.json(result)
-})
+
 
 app.post('/firma/1.0.0/produto', async (req, res) =>{
     let {codigo,nome, id_categoria, preco} = req.body
